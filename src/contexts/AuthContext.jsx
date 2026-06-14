@@ -1,4 +1,5 @@
 // src/contexts/AuthContext.jsx
+import { onAuthStateChanged, signInWithRedirect, signOut } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth'
 import { doc, setDoc, getDoc } from 'firebase/firestore'
@@ -34,7 +35,7 @@ export function AuthProvider({ children }) {
     return unsub
   }, [])
 
-  const loginWithGoogle = () => signInWithPopup(auth, googleProvider)
+  const loginWithGoogle = () => signInWithRedirect(auth, googleProvider)
   const logout = () => signOut(auth)
 
   return (
