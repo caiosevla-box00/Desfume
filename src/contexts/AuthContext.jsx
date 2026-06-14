@@ -1,7 +1,6 @@
 // src/contexts/AuthContext.jsx
 import { onAuthStateChanged, signInWithRedirect, signOut } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth'
 import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { auth, db, googleProvider } from '../lib/firebase'
 
