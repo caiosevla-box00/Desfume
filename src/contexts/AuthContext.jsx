@@ -1,6 +1,5 @@
-// src/contexts/AuthContext.jsx
-import { onAuthStateChanged, signInWithRedirect, signOut } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
+import { onAuthStateChanged, signInWithRedirect, getRedirectResult, signOut } from 'firebase/auth'
 import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { auth, db, googleProvider } from '../lib/firebase'
 
@@ -11,6 +10,8 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    getRedirectResult(auth).catch(() => {})
+
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         const ref = doc(db, 'users', firebaseUser.uid)
