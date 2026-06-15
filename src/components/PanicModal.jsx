@@ -1,127 +1,105 @@
-// src/components/PanicModal.jsx
 import { useState, useEffect, useRef } from 'react'
-
-const STOIC_QUOTES = [
-  { text: 'Você tem poder sobre sua mente, não sobre eventos externos. Realize isso, e você encontrará força.', author: 'Marco Aurélio, Meditações' },
-  { text: 'A disciplina é a maior forma de amor-próprio. Você não se castiga quando escolhe parar — você se honra.', author: 'Epicteto' },
-  { text: 'Não é o que acontece com você, mas como você reage que importa.', author: 'Epicteto, Enchiridion' },
-  { text: 'Cada dia é uma nova oportunidade de ser melhor do que você era ontem.', author: 'Marco Aurélio' },
-  { text: 'A fraqueza de caráter é o único verdadeiro defeito. E o cigarro não tem poder sobre seu caráter.', author: 'Zenão de Cítio' },
-]
-
-const RELIGION_QUOTES = [
-  { text: 'O Senhor é a minha força e o meu escudo; o meu coração nele confiou, e fui ajudado.', author: 'Salmos 28:7' },
-  { text: 'Tudo posso naquele que me fortalece.', author: 'Filipenses 4:13' },
-  { text: 'Não vos conformeis com este século, mas transformai-vos pela renovação do vosso entendimento.', author: 'Romanos 12:2' },
-  { text: 'Não há nenhum fardo tão pesado que o amor e a fé não possam tornar mais leve.', author: 'Provérbio budista' },
-  { text: 'A paciência é amarga, mas seu fruto é doce.', author: 'Provérbio islâmico' },
-]
-
-const SCIENCE_FACTS = [
-  'A fissura dura no máximo 3 minutos — mesmo que pareça uma eternidade.',
-  'Cada cigarro recusado enfraquece fisicamente o vício. Seu cérebro está literalmente se reconfigurando.',
-  'Em 20 minutos sem fumar, sua pressão arterial já volta ao normal.',
-  'O desejo intenso que você sente agora é apenas seu cérebro pedindo nicotina — ele vai parar de pedir.',
-  'Fumantes que usam um app têm 2x mais chance de sucesso do que os que tentam sozinhos.',
-]
-
-const WORDS = ['SAÚDE', 'LIBERDADE', 'FORÇA', 'RESPIRO', 'VITÓRIA', 'FAMÍLIA', 'FUTURO', 'ENERGIA', 'PUREZA', 'CALMA', 'PULMÃO', 'ALEGRIA', 'BELEZA', 'CORAGEM', 'ESPERANÇA']
+import { STOIC, FAITH, SCIENCE, MOTIVATIONAL } from '../lib/messages'
+import { GAME_WORDS } from '../lib/words'
 
 export default function PanicModal({ open, onClose }) {
-  const [mode, setMode] = useState('menu') // menu | breathe | game | quote | water
-  const [breathePhase, setBreathePhase] = useState(0) // 0=inspire, 1=hold, 2=expire
+  const [mode, setMode] = useState('menu')
+  const [breathePhase, setBreathePhase] = useState(0)
   const [breatheCount, setBreatheCount] = useState(4)
-  const [quoteIdx, setQuoteIdx] = useState(0)
+  const [breatheCycles, setBreatheCycles] = useState(0)
   const [quoteType, setQuoteType] = useState('stoic')
+  const [quoteIdx, setQuoteIdx] = useState(0)
   const [gameWord, setGameWord] = useState('')
   const [gameShuffled, setGameShuffled] = useState('')
   const [gameInput, setGameInput] = useState('')
   const [gameScore, setGameScore] = useState(0)
-  const [gameStatus, setGameStatus] = useState('')
+  const [gameMsg, setGameMsg] = useState('')
   const [waterCount, setWaterCount] = useState(30)
-  const intervalRef = useRef(null)
-  const allQuotes = [...STOIC_QUOTES, ...RELIGION_QUOTES]
+  const [waterDone, setWaterDone] = useState(false)
+  const interval = useRef(null)
 
-  useEffect(() => {
-    if (!open) { setMode('menu'); clearInterval(intervalRef.current) }
-  }, [open])
+  useEffect(() => { if (!open) { setMode('menu'); clearInterval(interval.current) } }, [open])
 
   useEffect(() => {
     if (mode !== 'breathe') return
-    const phases = [
-      { label: 'Inspire', duration: 4 },
-      { label: 'Segure', duration: 7 },
-      { label: 'Expire devagar', duration: 8 },
-    ]
-    let p = 0, c = phases[0].duration
-    setBreathePhase(0); setBreatheCount(phases[0].duration)
-    intervalRef.current = setInterval(() => {
+    const phases = [{ label: 'Inspire', d: 4 }, { label: 'Segure', d: 7 }, { label: 'Expire', d: 8 }]
+    let p = 0, c = phases[0].d
+    setBreathePhase(0); setBreatheCount(phases[0].d); setBreatheCycles(0)
+    interval.current = setInterval(() => {
       c--
-      if (c <= 0) { p = (p + 1) % 3; c = phases[p].duration; setBreathePhase(p) }
+      if (c <= 0) {
+        p = (p + 1) % 3
+        if (p === 0) setBreatheCycles(prev => prev + 1)
+        c = phases[p].d
+        setBreathePhase(p)
+      }
       setBreatheCount(c)
     }, 1000)
-    return () => clearInterval(intervalRef.current)
+    return () => clearInterval(interval.current)
   }, [mode])
 
   useEffect(() => {
     if (mode !== 'water') return
-    let c = 30; setWaterCount(30)
-    intervalRef.current = setInterval(() => { c--; setWaterCount(c); if (c <= 0) clearInterval(intervalRef.current) }, 1000)
-    return () => clearInterval(intervalRef.current)
+    let c = 30; setWaterCount(30); setWaterDone(false)
+    interval.current = setInterval(() => {
+      c--; setWaterCount(c)
+      if (c <= 0) { clearInterval(interval.current); setWaterDone(true) }
+    }, 1000)
+    return () => clearInterval(interval.current)
   }, [mode])
 
   const startGame = () => {
-    const word = WORDS[Math.floor(Math.random() * WORDS.length)]
+    const word = GAME_WORDS[Math.floor(Math.random() * GAME_WORDS.length)]
     const shuffled = word.split('').sort(() => Math.random() - 0.5).join('')
-    setGameWord(word); setGameShuffled(shuffled); setGameInput(''); setGameStatus(''); setMode('game')
+    setGameWord(word); setGameShuffled(shuffled); setGameInput(''); setGameMsg('')
+    setMode('game')
   }
 
-  const checkGameInput = (val) => {
+  const checkWord = (val) => {
     setGameInput(val)
     if (val.toUpperCase() === gameWord) {
-      setGameScore(s => s + 1); setGameStatus('✅ Acertou!')
+      setGameScore(s => s + 1); setGameMsg('✅ Acertou! Próxima...')
       setTimeout(startGame, 1200)
     }
   }
 
+  const quoteBank = { stoic: STOIC, faith: FAITH, motivational: MOTIVATIONAL }
+  const currentQuotes = quoteType === 'science' ? SCIENCE : quoteBank[quoteType] || STOIC
+  const currentQuote = currentQuotes[quoteIdx % currentQuotes.length]
   const breatheLabels = ['Inspire', 'Segure', 'Expire devagar']
-  const breatheExpanding = breathePhase === 0
-  const breatheShrinking = breathePhase === 2
+  const breatheScale = breathePhase === 0 ? 'scale(1.3)' : breathePhase === 1 ? 'scale(1.3)' : 'scale(1)'
+  const breatheBg = breathePhase === 0 ? '#DCF0E7' : breathePhase === 1 ? '#B0D4BF' : '#F4FAF7'
 
   if (!open) return null
 
   return (
-    <div className="overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+    <div className="overlay" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="overlay-sheet">
         <div className="overlay-handle" />
 
         {mode === 'menu' && (
           <>
             <div style={{ marginBottom: '1rem' }}>
-              <h2 style={{ fontSize: '1.25rem' }}>🆘 Modo pânico</h2>
-              <p style={{ fontSize: '0.875rem', marginTop: 4 }}>A fissura passa em <strong>3 minutos</strong>. Escolha uma estratégia:</p>
+              <h2 style={{ fontSize: '1.25rem', color: '#0A3D2B' }}>🆘 Modo pânico</h2>
+              <p style={{ fontSize: '0.875rem', marginTop: 4 }}>A fissura dura <strong>3 minutos</strong>. Escolha uma estratégia:</p>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: '1rem' }}>
               {[
-                { icon: '🌬️', label: 'Respiração 4-7-8', sub: 'Reduz ansiedade', action: () => setMode('breathe') },
-                { icon: '🧩', label: 'Jogo de palavras', sub: 'Distração mental', action: startGame },
-                { icon: '💬', label: 'Força filosófica', sub: 'Estoicismo & fé', action: () => { setQuoteIdx(Math.floor(Math.random() * allQuotes.length)); setMode('quote') } },
-                { icon: '💧', label: 'Beba água', sub: 'Hidratação anti-fissura', action: () => setMode('water') },
+                { e: '🌬️', t: 'Respiração 4-7-8', s: 'Anti-ansiedade comprovada', a: () => setMode('breathe') },
+                { e: '🧩', t: 'Jogo de palavras', s: 'Distração mental rápida', a: startGame },
+                { e: '💬', t: 'Força e sabedoria', s: 'Filosofia, fé e ciência', a: () => { setQuoteIdx(Math.floor(Math.random() * 10)); setMode('quote') } },
+                { e: '💧', t: 'Beba água agora', s: 'Hidratação anti-fissura', a: () => setMode('water') },
               ].map(opt => (
-                <button key={opt.label} onClick={opt.action} style={{
-                  padding: '14px 10px', border: '1px solid var(--border)', borderRadius: 12,
-                  background: 'var(--surface)', cursor: 'pointer', textAlign: 'center',
-                  transition: 'all 0.15s', fontFamily: 'inherit'
-                }}>
-                  <div style={{ fontSize: '1.75rem', marginBottom: 4 }}>{opt.icon}</div>
-                  <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--ink)' }}>{opt.label}</div>
-                  <div style={{ fontSize: '0.6875rem', color: 'var(--ink-soft)', marginTop: 2 }}>{opt.sub}</div>
+                <button key={opt.t} onClick={opt.a} style={{ padding: '14px 10px', border: '1.5px solid #DCF0E7', borderRadius: 12, background: '#F4FAF7', cursor: 'pointer', textAlign: 'center', transition: 'all 0.15s', fontFamily: 'inherit' }}>
+                  <div style={{ fontSize: '1.75rem', marginBottom: 6 }}>{opt.e}</div>
+                  <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#0A3D2B' }}>{opt.t}</div>
+                  <div style={{ fontSize: '0.6875rem', color: '#6B8A74', marginTop: 2 }}>{opt.s}</div>
                 </button>
               ))}
             </div>
-            <div style={{ padding: '10px 14px', background: 'var(--forest-pale)', borderRadius: 10 }}>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--forest)', lineHeight: 1.5 }}>
-                💡 <strong>Dica clínica:</strong> Mude de ambiente agora. Levante, vá a outro cômodo, beba água. A mudança física quebra o ciclo do gatilho.
+            <div style={{ padding: '10px 14px', background: '#DCF0E7', borderRadius: 10, marginBottom: 8 }}>
+              <p style={{ fontSize: '0.8125rem', color: '#0A3D2B', lineHeight: 1.5 }}>
+                💡 <strong>Dica clínica (TCC):</strong> Mude de ambiente imediatamente. Levante, vá a outro cômodo. A mudança física quebra o ciclo do gatilho.
               </p>
             </div>
           </>
@@ -129,55 +107,56 @@ export default function PanicModal({ open, onClose }) {
 
         {mode === 'breathe' && (
           <div style={{ textAlign: 'center' }}>
-            <button onClick={() => setMode('menu')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-soft)', fontSize: '0.875rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: 4 }}>← Voltar</button>
+            <button onClick={() => setMode('menu')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6B8A74', fontSize: '0.875rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: 4 }}>← Voltar</button>
             <h2 style={{ marginBottom: '0.25rem' }}>Respiração 4-7-8</h2>
-            <p style={{ fontSize: '0.8125rem', color: 'var(--ink-soft)', marginBottom: '1.5rem' }}>Técnica do Dr. Andrew Weil — ativa o sistema parassimpático</p>
-            <div
-              className={`breathe-circle${breatheExpanding ? ' expanding' : breatheShrinking ? ' shrinking' : ''}`}
-              style={{ transform: `scale(${breathePhase === 0 ? '1.3' : breathePhase === 1 ? '1.3' : '1'})` }}
-            >
-              <div style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--forest)' }}>{breatheLabels[breathePhase]}</div>
-              <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--forest-mid)' }}>{breatheCount}</div>
+            <p style={{ fontSize: '0.8125rem', color: '#6B8A74', marginBottom: '1.5rem' }}>Ativa o sistema parassimpático — reduz ansiedade em 60 segundos</p>
+            <div style={{ width: 140, height: 140, borderRadius: '50%', background: breatheBg, border: '3px solid #1A6B42', margin: '0 auto 1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', transform: breatheScale, transition: 'transform 1s ease, background 0.5s' }}>
+              <div style={{ fontSize: '1rem', fontWeight: 700, color: '#0A3D2B' }}>{breatheLabels[breathePhase]}</div>
+              <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#1A6B42', lineHeight: 1 }}>{breatheCount}</div>
             </div>
-            <p style={{ fontSize: '0.875rem', color: 'var(--ink-soft)', marginTop: '1rem' }}>Inspire pelo nariz · Segure · Expire pela boca</p>
+            <p style={{ fontSize: '0.8125rem', color: '#6B8A74' }}>Ciclos completados: <strong style={{ color: '#1A6B42' }}>{breatheCycles}</strong></p>
+            <p style={{ fontSize: '0.75rem', color: '#9BB5A4', marginTop: 8 }}>Inspire pelo nariz · Segure · Expire pela boca</p>
           </div>
         )}
 
         {mode === 'game' && (
           <div>
-            <button onClick={() => setMode('menu')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-soft)', fontSize: '0.875rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: 4 }}>← Voltar</button>
+            <button onClick={() => setMode('menu')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6B8A74', fontSize: '0.875rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: 4 }}>← Voltar</button>
             <h2 style={{ marginBottom: '0.25rem' }}>Desvende a palavra</h2>
-            <p style={{ fontSize: '0.8125rem', color: 'var(--ink-soft)', marginBottom: '1.25rem' }}>Palavras de força e saúde — ⭐ {gameScore} pontos</p>
-            <div style={{ background: 'var(--forest-pale)', borderRadius: 12, padding: '1.25rem', textAlign: 'center', marginBottom: '1rem', letterSpacing: 8, fontSize: '1.375rem', fontWeight: 700, color: 'var(--forest)' }}>
+            <p style={{ fontSize: '0.8125rem', color: '#6B8A74', marginBottom: '1.25rem' }}>Palavras de saúde e liberdade — ⭐ {gameScore} pontos</p>
+            <div style={{ background: '#DCF0E7', borderRadius: 12, padding: '1.25rem', textAlign: 'center', marginBottom: '1rem', letterSpacing: 10, fontSize: '1.5rem', fontWeight: 800, color: '#0A3D2B' }}>
               {gameShuffled}
             </div>
-            <input className="game-input" value={gameInput} onChange={e => checkGameInput(e.target.value)}
-              placeholder="Digite a palavra..." style={{ textTransform: 'uppercase', letterSpacing: 2 }}
+            <input value={gameInput} onChange={e => checkWord(e.target.value)}
+              placeholder="Digite a palavra..." style={{ textTransform: 'uppercase', letterSpacing: 3, fontWeight: 700, textAlign: 'center', marginBottom: 8 }}
               autoFocus autoCapitalize="characters" autoComplete="off" />
-            {gameStatus && <p style={{ color: 'var(--forest)', fontWeight: 600, textAlign: 'center', marginTop: 8 }}>{gameStatus}</p>}
+            {gameMsg && <p style={{ color: '#1A6B42', fontWeight: 700, textAlign: 'center' }}>{gameMsg}</p>}
+            <p style={{ fontSize: '0.75rem', color: '#9BB5A4', textAlign: 'center', marginTop: 8 }}>
+              {gameWord.length} letras · foque aqui, a fissura está passando
+            </p>
           </div>
         )}
 
         {mode === 'quote' && (
           <div>
-            <button onClick={() => setMode('menu')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-soft)', fontSize: '0.875rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: 4 }}>← Voltar</button>
-            <h2 style={{ marginBottom: '0.5rem' }}>Força e sabedoria</h2>
-            <div style={{ display: 'flex', gap: 8, marginBottom: '1.25rem' }}>
-              {[['stoic', 'Estoicismo'], ['science', 'Ciência'], ['faith', 'Espiritualidade']].map(([type, label]) => (
-                <button key={type} onClick={() => setQuoteType(type)} className={`tag ${quoteType === type ? 'tag-forest' : ''}`} style={{ cursor: 'pointer', border: quoteType === type ? 'none' : '1px solid var(--border)', background: quoteType === type ? undefined : 'transparent', fontFamily: 'inherit' }}>{label}</button>
+            <button onClick={() => setMode('menu')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6B8A74', fontSize: '0.875rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: 4 }}>← Voltar</button>
+            <h2 style={{ marginBottom: '0.75rem' }}>Força e sabedoria</h2>
+            <div style={{ display: 'flex', gap: 6, marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+              {[['stoic','🏛️ Estoicismo'], ['faith','🙏 Espiritualidade'], ['science','🔬 Ciência'], ['motivational','💪 Motivação']].map(([type, label]) => (
+                <button key={type} onClick={() => { setQuoteType(type); setQuoteIdx(0) }}
+                  style={{ padding: '5px 12px', borderRadius: 99, border: `1.5px solid ${quoteType === type ? '#1A6B42' : '#DCF0E7'}`, background: quoteType === type ? '#DCF0E7' : 'white', color: quoteType === type ? '#0A3D2B' : '#6B8A74', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                  {label}
+                </button>
               ))}
             </div>
             <div className="quote-card" style={{ marginBottom: '1.25rem' }}>
-              {quoteType === 'stoic' && (() => {
-                const q = STOIC_QUOTES[quoteIdx % STOIC_QUOTES.length]
-                return <><p className="quote-text">"{q.text}"</p><p className="quote-author">— {q.author}</p></>
-              })()}
-              {quoteType === 'faith' && (() => {
-                const q = RELIGION_QUOTES[quoteIdx % RELIGION_QUOTES.length]
-                return <><p className="quote-text">"{q.text}"</p><p className="quote-author">— {q.author}</p></>
-              })()}
-              {quoteType === 'science' && (
-                <p style={{ fontFamily: 'Inter, sans-serif', fontStyle: 'normal', fontSize: '0.9375rem', color: 'var(--forest)', lineHeight: 1.6 }}>🔬 {SCIENCE_FACTS[quoteIdx % SCIENCE_FACTS.length]}</p>
+              {quoteType === 'science' ? (
+                <p style={{ fontSize: '0.9375rem', color: '#0A3D2B', lineHeight: 1.6 }}>🔬 {currentQuote}</p>
+              ) : (
+                <>
+                  <p className="quote-text">"{currentQuote.text}"</p>
+                  <p className="quote-author">— {currentQuote.author}</p>
+                </>
               )}
             </div>
             <button className="btn btn-ghost btn-full" onClick={() => setQuoteIdx(i => i + 1)}>
@@ -188,15 +167,19 @@ export default function PanicModal({ open, onClose }) {
 
         {mode === 'water' && (
           <div style={{ textAlign: 'center' }}>
-            <button onClick={() => setMode('menu')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-soft)', fontSize: '0.875rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: 4 }}>← Voltar</button>
+            <button onClick={() => setMode('menu')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6B8A74', fontSize: '0.875rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: 4 }}>← Voltar</button>
             <div style={{ fontSize: '4rem', marginBottom: '0.5rem' }}>💧</div>
             <h2 style={{ marginBottom: '0.5rem' }}>Beba um copo d'água</h2>
-            <p style={{ fontSize: '0.875rem', color: 'var(--ink-soft)', marginBottom: '1.5rem', lineHeight: 1.5 }}>A hidratação reduz a fissura. Enquanto bebe, respire devagar. O desejo já está diminuindo.</p>
-            <div style={{ fontSize: '4rem', fontWeight: 700, color: waterCount > 10 ? 'var(--sky)' : 'var(--forest)', lineHeight: 1, marginBottom: '0.25rem' }}>{waterCount}</div>
-            <p style={{ fontSize: '0.875rem', color: 'var(--ink-soft)' }}>segundos</p>
-            {waterCount <= 0 && (
-              <div style={{ marginTop: '1rem', background: 'var(--forest-pale)', borderRadius: 10, padding: '0.75rem' }}>
-                <p style={{ color: 'var(--forest)', fontWeight: 600, fontSize: '0.9375rem' }}>✅ Muito bem! A fissura passou.</p>
+            <p style={{ fontSize: '0.875rem', color: '#6B8A74', marginBottom: '1.5rem', lineHeight: 1.5 }}>A hidratação reduz a fissura. Respire enquanto bebe.</p>
+            {!waterDone ? (
+              <>
+                <div style={{ fontSize: '4.5rem', fontWeight: 800, color: '#1A6B42', lineHeight: 1 }}>{waterCount}</div>
+                <p style={{ color: '#6B8A74', marginTop: 4 }}>segundos — a fissura está diminuindo</p>
+              </>
+            ) : (
+              <div style={{ background: '#DCF0E7', borderRadius: 12, padding: '1.25rem' }}>
+                <p style={{ fontWeight: 700, color: '#0A3D2B', fontSize: '1rem' }}>✅ Parabéns! A fissura passou.</p>
+                <p style={{ fontSize: '0.8125rem', color: '#4A8C6F', marginTop: 6 }}>Cada vez que você resiste, o vício fica mais fraco.</p>
               </div>
             )}
           </div>

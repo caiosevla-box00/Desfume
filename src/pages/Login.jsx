@@ -1,5 +1,5 @@
-// src/pages/Login.jsx
 import { useAuth } from '../contexts/AuthContext'
+import Logo from '../components/Logo'
 
 export default function Login() {
   const { loginWithGoogle } = useAuth()
@@ -7,43 +7,41 @@ export default function Login() {
     <div style={{
       minHeight: '100dvh', display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      background: 'linear-gradient(160deg, #0F4C3A 0%, #1D6B52 55%, #E8F5F0 100%)',
-      padding: '2rem 1.5rem', textAlign: 'center'
+      background: 'linear-gradient(170deg, #0A3D2B 0%, #1A6B42 50%, #F4FAF7 100%)',
+      padding: '2rem 1.5rem',
     }}>
-      <div style={{ marginBottom: '2rem' }}>
-        <div style={{ fontSize: '4rem', lineHeight: 1, marginBottom: '0.75rem' }}>🕊️</div>
-        <h1 style={{ fontFamily: "'Playfair Display', serif", color: 'white', fontSize: '2.5rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+        <Logo size={96} />
+        <h1 style={{ fontFamily: "'DM Sans', sans-serif", color: 'white', fontSize: '2.75rem', fontWeight: 800, marginTop: '1rem', letterSpacing: '-1px' }}>
           Desfume
         </h1>
-        <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '1rem', maxWidth: 280, margin: '0 auto' }}>
-          Seu companheiro científico e humano para parar de fumar
+        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem', marginTop: '0.5rem' }}>
+          Ciência e força para parar de fumar
         </p>
       </div>
 
-      <div style={{ background: 'white', borderRadius: 20, padding: '2rem 1.5rem', width: '100%', maxWidth: 360, boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
-        <div style={{ marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: '1rem' }}>
-            {['🧬','🧠','💊','🏆'].map(e => (
-              <div key={e} style={{ fontSize: '1.5rem', background: '#E8F5F0', width: 44, height: 44, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{e}</div>
-            ))}
-          </div>
-          <p style={{ fontSize: '0.8125rem', color: '#6B7C74', lineHeight: 1.5 }}>
-            Protocolos INCA · Teste de Fagerström · TCC · Gamificação · Filosofia Estoica
-          </p>
+      <div style={{ background: 'white', borderRadius: 20, padding: '2rem 1.5rem', width: '100%', maxWidth: 360, boxShadow: '0 24px 64px rgba(0,0,0,0.2)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: '1.5rem' }}>
+          {[
+            { e: '🩺', t: 'Protocolo INCA' },
+            { e: '🧠', t: 'TCC validada' },
+            { e: '📊', t: 'Monitoramento' },
+            { e: '🏆', t: 'Gamificação' },
+          ].map(item => (
+            <div key={item.t} style={{ background: '#F4FAF7', borderRadius: 10, padding: '10px 8px', textAlign: 'center' }}>
+              <div style={{ fontSize: '1.375rem', marginBottom: 4 }}>{item.e}</div>
+              <div style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#0A3D2B' }}>{item.t}</div>
+            </div>
+          ))}
         </div>
 
-        <button
-          onClick={loginWithGoogle}
-          style={{
-            width: '100%', padding: '13px 20px', border: '1.5px solid #e0e0e0',
-            borderRadius: 10, background: 'white', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-            fontSize: '0.9375rem', fontWeight: 600, fontFamily: 'inherit', color: '#1A1F1D',
-            transition: 'all 0.15s'
-          }}
-          onMouseEnter={e => e.target.style.background = '#f5f5f5'}
-          onMouseLeave={e => e.target.style.background = 'white'}
-        >
+        <button onClick={loginWithGoogle} style={{
+          width: '100%', padding: '14px 20px', border: '1.5px solid #DCF0E7',
+          borderRadius: 12, background: 'white', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
+          fontSize: '1rem', fontWeight: 700, fontFamily: "'DM Sans', sans-serif", color: '#0A3D2B',
+          transition: 'all 0.15s', boxShadow: '0 2px 8px rgba(10,61,43,0.08)'
+        }}>
           <svg width="20" height="20" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
             <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -52,19 +50,18 @@ export default function Login() {
           </svg>
           Entrar com Google
         </button>
-
-        <p style={{ fontSize: '0.6875rem', color: '#9eaaa5', marginTop: '1rem', lineHeight: 1.5 }}>
-          Seu progresso será salvo na nuvem e sincronizado entre dispositivos
+        <p style={{ fontSize: '0.6875rem', color: '#9BB5A4', marginTop: '1rem', textAlign: 'center', lineHeight: 1.5 }}>
+          Progresso salvo na nuvem · Sincronizado entre dispositivos
         </p>
       </div>
 
-      <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{ marginTop: '1.75rem', display: 'flex', flexDirection: 'column', gap: 8, width: '100%', maxWidth: 360 }}>
         {[
-          '"A única coisa boa é a virtude, e o único mal é o vício." — Marco Aurélio',
-          '"Você tem poder sobre sua mente, não sobre eventos externos." — Epicteto',
+          '"A disciplina é a maior forma de amor-próprio." — Epicteto',
+          '"Você tem poder sobre sua mente, não sobre eventos externos." — Marco Aurélio',
         ].map((q, i) => (
-          <div key={i} style={{ background: 'rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 14px', maxWidth: 320, textAlign: 'left' }}>
-            <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.75rem', fontStyle: 'italic', lineHeight: 1.5 }}>{q}</p>
+          <div key={i} style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 10, padding: '10px 14px' }}>
+            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.75rem', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>{q}</p>
           </div>
         ))}
       </div>
