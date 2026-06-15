@@ -1,4 +1,3 @@
-// src/App.jsx
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
 import Login from './pages/Login'
@@ -16,10 +15,10 @@ function ProtectedApp() {
   const { data, loaded, update, logCigarette } = useUserData()
 
   if (!loaded) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100dvh', flexDirection: 'column', gap: 16 }}>
-      <div style={{ width: 40, height: 40, border: '3px solid #E8F5F0', borderTopColor: '#0F4C3A', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+    <div style={{ display:'flex', alignItems:'center', justifyContent:'center', height:'100dvh', flexDirection:'column', gap:16, background:'#F4FAF7' }}>
+      <div style={{ width:44, height:44, border:'3px solid #DCF0E7', borderTopColor:'#1A6B42', borderRadius:'50%', animation:'spin 0.8s linear infinite' }} />
       <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
-      <p style={{ color: '#6B7C74', fontSize: 14 }}>Carregando seu progresso...</p>
+      <p style={{ color:'#6B8A74', fontSize:14, fontFamily:"'DM Sans', sans-serif", fontWeight:600 }}>Carregando seu progresso...</p>
     </div>
   )
 

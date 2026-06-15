@@ -3,6 +3,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
+  color-scheme: light;
   --mint: #F4FAF7;
   --mint-mid: #E8F5EE;
   --mint-border: #DCF0E7;
@@ -189,23 +190,4 @@ label { font-size: 0.8125rem; font-weight: 700; color: var(--ink-mid); display: 
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--mint-border); border-radius: 2px; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --surface: #0D1F15;
-    --card: #132018;
-    --border: rgba(46,204,113,0.12);
-    --border-strong: rgba(46,204,113,0.25);
-    --mint: rgba(20,60,35,0.5);
-    --mint-mid: rgba(20,60,35,0.4);
-    --mint-border: rgba(46,204,113,0.2);
-    --ink: #E8F5EE;
-    --ink-mid: #A8C4B0;
-    --ink-soft: #6B8A74;
-    --ink-ghost: #4A6B52;
-    --ember-pale: rgba(224,92,42,0.12);
-    --gold-pale: rgba(196,126,0,0.12);
-    --sky-pale: rgba(26,107,154,0.12);
-    --red-pale: rgba(220,38,38,0.12);
-    --white: #132018;
-  }
-}
+/* Modo escuro desativado intencionalmente — Desfume usa identidade verde menta fixa */
