@@ -1,13 +1,13 @@
 {
-  "name": "BOX 0.0 — Estética Automotiva",
-  "short_name": "BOX 0.0",
-  "description": "Sistema de gestão para estética automotiva",
+  "name": "Desfume",
+  "short_name": "Desfume",
+  "description": "Seu companheiro científico para parar de fumar",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#080808",
-  "theme_color": "#080808",
-  "orientation": "portrait-primary",
+  "background_color": "#0F4C3A",
+  "theme_color": "#0F4C3A",
   "icons": [
-    { "src": "/icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }

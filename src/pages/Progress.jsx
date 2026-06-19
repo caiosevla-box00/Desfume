@@ -41,113 +41,104 @@ export default function Progress({ data }) {
 
   return (
     <div className="page-padded">
-      <h1 style={{marginBottom:'1.25rem'}}>Seu progresso</h1>
+      <h1 style={{marginBottom:'1.25rem'}}>Progresso</h1>
 
-      {/* Main stats */}
+      {/* Redução real */}
       <div className="card card-green" style={{marginBottom:'1rem'}}>
+        <p style={{fontSize:'0.75rem',color:'rgba(255,255,255,0.6)',fontWeight:700,textTransform:'uppercase',marginBottom:12}}>Sua evolução desde o início</p>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
-          {[
-            ['Economizado', brl(stats.moneySaved)],
-            ['Não fumados', num(stats.cigsNotSmoked)],
-            ['Dias limpos', stats.cleanDays],
-            ['Fumados total', num(stats.actualSmoked)],
-          ].map(([lbl,val])=>(
-            <div key={lbl}>
-              <p style={{fontSize:'0.6875rem',color:'rgba(255,255,255,0.6)',fontWeight:700,textTransform:'uppercase',marginBottom:2}}>{lbl}</p>
-              <p style={{fontSize:'1.5rem',fontWeight:800,color:'white',lineHeight:1}}>{val}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Reduction summary */}
-      <div className="card card-mint" style={{marginBottom:'1rem'}}>
-        <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:10}}>
-          <p style={{fontSize:'0.8125rem',fontWeight:700,color:'#0A3D2B',margin:0}}>📉 Redução total no consumo</p>
-          <span style={{fontSize:'1.5rem',fontWeight:800,color:'#1A6B42'}}>{stats.reductionPct}%</span>
-        </div>
-        <div className="progress-track" style={{marginBottom:8}}>
-          <div className="progress-fill" style={{width:`${Math.min(stats.reductionPct,100)}%`}}/>
-        </div>
-        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}}>
-          {[
-            ['Esperado',num(stats.expectedTotal),'cig'],
-            ['Fumado',num(stats.actualSmoked),'cig'],
-            ['Evitado',num(stats.cigsNotSmoked),'cig'],
-          ].map(([lbl,val,unit])=>(
-            <div key={lbl} style={{background:'white',borderRadius:8,padding:'8px',textAlign:'center'}}>
-              <div style={{fontSize:'1.125rem',fontWeight:800,color:'#0A3D2B'}}>{val}</div>
-              <div style={{fontSize:'0.625rem',color:'#6B8A74',fontWeight:600}}>{lbl} ({unit})</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Time recovered */}
-      <div className="card card-sky" style={{marginBottom:'1rem'}}>
-        <p style={{fontSize:'0.75rem',fontWeight:700,color:'#1A6B9A',textTransform:'uppercase',letterSpacing:0.5,marginBottom:10}}>⏱️ Tempo de vida recuperado</p>
-        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
-          <div style={{background:'white',borderRadius:8,padding:'10px',textAlign:'center'}}>
-            <div style={{fontSize:'1.375rem',fontWeight:800,color:'#1A6B9A'}}>{stats.hoursRecovered}h</div>
-            <div style={{fontSize:'0.625rem',color:'#6B8A74',fontWeight:600}}>horas recuperadas</div>
+          <div>
+            <p style={{fontSize:'0.6875rem',color:'rgba(255,255,255,0.55)',fontWeight:600,marginBottom:2}}>PADRÃO INICIAL</p>
+            <p style={{fontSize:'1.5rem',fontWeight:800,color:'white',lineHeight:1}}>{stats.cpd} cig/dia</p>
           </div>
-          <div style={{background:'white',borderRadius:8,padding:'10px',textAlign:'center'}}>
-            <div style={{fontSize:'1.375rem',fontWeight:800,color:'#1A6B9A'}}>{num(stats.minutesRecovered)} min</div>
-            <div style={{fontSize:'0.625rem',color:'#6B8A74',fontWeight:600}}>minutos de vida</div>
+          <div>
+            <p style={{fontSize:'0.6875rem',color:'rgba(255,255,255,0.55)',fontWeight:600,marginBottom:2}}>MÉDIA ATUAL</p>
+            <p style={{fontSize:'1.5rem',fontWeight:800,color:'#2ECC71',lineHeight:1}}>{stats.dailyAvgSmoked} cig/dia</p>
+          </div>
+          <div>
+            <p style={{fontSize:'0.6875rem',color:'rgba(255,255,255,0.55)',fontWeight:600,marginBottom:2}}>REDUÇÃO</p>
+            <p style={{fontSize:'1.5rem',fontWeight:800,color:'#2ECC71',lineHeight:1}}>{stats.reductionPct}%</p>
+          </div>
+          <div>
+            <p style={{fontSize:'0.6875rem',color:'rgba(255,255,255,0.55)',fontWeight:600,marginBottom:2}}>NÃO FUMADOS</p>
+            <p style={{fontSize:'1.5rem',fontWeight:800,color:'white',lineHeight:1}}>{num(stats.cigsNotSmoked)}</p>
+          </div>
+        </div>
+        <div style={{marginTop:14}}>
+          <div style={{height:6,background:'rgba(255,255,255,0.15)',borderRadius:3,overflow:'hidden'}}>
+            <div style={{height:'100%',background:'#2ECC71',borderRadius:3,width:`${Math.min(stats.reductionPct,100)}%`,transition:'width .6s'}}/>
           </div>
         </div>
       </div>
 
-      {/* Financial impact */}
-      <div className="card card-ember" style={{marginBottom:'1rem'}}>
-        <p style={{fontSize:'0.75rem',fontWeight:700,color:'#E05C2A',textTransform:'uppercase',letterSpacing:0.5,marginBottom:10}}>💸 Impacto financeiro</p>
+      {/* Economia real baseada na redução */}
+      <div className="card card-gold" style={{marginBottom:'1rem'}}>
+        <p style={{fontSize:'0.75rem',fontWeight:700,color:'#C47E00',textTransform:'uppercase',letterSpacing:0.5,marginBottom:10}}>💰 Economia real com a redução</p>
         <div style={{display:'flex',flexDirection:'column',gap:6}}>
           {[
-            ['Economizado até agora', brl(stats.moneySaved),'#1A6B42'],
-            ['Custo mensal (padrão)', brl(stats.monthlyCost),'#E05C2A'],
-            ['Custo anual (padrão)', brl(stats.yearlyCost),'#E05C2A'],
-            ['Economia mensal atual', brl(stats.monthlySaving),'#1A6B42'],
-            ['Economia anual projetada', brl(stats.yearlySaving),'#1A6B42'],
-            ['Em 5 anos (se parar hoje)', brl(stats.yearlyCost*5),'#DC2626'],
-            ['Em 10 anos (se parar hoje)', brl(stats.yearlyCost*10),'#DC2626'],
-          ].map(([lbl,val,color])=>(
-            <div key={lbl} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'5px 0',borderBottom:'1px solid rgba(224,92,42,0.1)'}}>
+            ['Economizado até agora', brl(stats.moneySaved), '#1A6B42'],
+            ['Economia semanal atual', brl(stats.weeklySaving), '#1A6B42'],
+            ['Economia mensal atual', brl(stats.monthlySaving), '#1A6B42'],
+            ['Economia anual projetada', brl(stats.yearlySavingCurrent), '#C47E00'],
+          ].map(([lbl,val,color]) => (
+            <div key={lbl} style={{display:'flex',justifyContent:'space-between',padding:'5px 0',borderBottom:'1px solid rgba(196,126,0,0.1)'}}>
               <span style={{fontSize:'0.8125rem',color:'#6B8A74'}}>{lbl}</span>
               <span style={{fontSize:'0.9375rem',fontWeight:800,color}}>{val}</span>
             </div>
           ))}
         </div>
+        <p style={{fontSize:'0.6875rem',color:'#9BB5A4',marginTop:8}}>
+          Baseado na redução de {stats.dailyReduction > 0 ? stats.dailyReduction.toFixed(1) : '0'} cig/dia em relação ao padrão inicial
+        </p>
       </div>
 
-      {/* Health impact */}
+      {/* Impacto financeiro projetado */}
+      <div className="card card-ember" style={{marginBottom:'1rem'}}>
+        <p style={{fontSize:'0.75rem',fontWeight:700,color:'#E05C2A',textTransform:'uppercase',letterSpacing:0.5,marginBottom:10}}>💸 O que o cigarro custaria</p>
+        <div style={{display:'flex',flexDirection:'column',gap:6}}>
+          {[
+            ['Custo mensal (padrão)', brl(stats.monthlyCost)],
+            ['Custo anual (padrão)', brl(stats.yearlyCost)],
+            ['Em 5 anos', brl(stats.yearlyCost * 5)],
+            stats.yearsSmking > 0 && ['Em '+stats.yearsSmking+' anos fumando', brl(stats.lifetimeCost || 0)],
+          ].filter(Boolean).map(([lbl,val]) => (
+            <div key={lbl} style={{display:'flex',justifyContent:'space-between',padding:'5px 0',borderBottom:'1px solid rgba(224,92,42,0.1)'}}>
+              <span style={{fontSize:'0.8125rem',color:'#6B8A74'}}>{lbl}</span>
+              <span style={{fontSize:'0.9375rem',fontWeight:800,color:'#E05C2A'}}>{val}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Impacto saúde — dias de vida */}
       <div className="card card-red" style={{marginBottom:'1rem'}}>
-        <p style={{fontSize:'0.75rem',fontWeight:700,color:'#DC2626',textTransform:'uppercase',letterSpacing:0.5,marginBottom:10}}>⚠️ Impacto à saúde (baseline)</p>
+        <p style={{fontSize:'0.75rem',fontWeight:700,color:'#DC2626',textTransform:'uppercase',letterSpacing:0.5,marginBottom:10}}>⚠️ Impacto à saúde</p>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
           {[
-            [brl(stats.yearlyCost),'gasto/ano com cigarro'],
-            [`${num(stats.cpd*365)} cig`,'por ano no padrão'],
-            [`${Math.round(stats.cpd*5*365/60/24)} dias`,'de vida/ano perdidos'],
-            ['70%','fumantes terão doença grave'],
-          ].map(([val,lbl])=>(
+            [`${Math.round(stats.dailyAvgSmoked * 5)} min/dia`, 'de vida perdidos (média atual)'],
+            [`${Math.round(stats.cpd * 5)} min/dia`, 'de vida (padrão inicial)'],
+            stats.lifetimeMinutes && [`≈ ${num(Math.round(stats.lifetimeMinutes/60/24))} dias`, `perdidos em ${stats.yearsSmking} anos`],
+            stats.minutesRecovered > 0 && [`${stats.hoursRecovered}h`, 'de vida recuperadas'],
+          ].filter(Boolean).map(([val, lbl]) => (
             <div key={lbl} style={{background:'white',borderRadius:8,padding:'10px',textAlign:'center',border:'1px solid rgba(220,38,38,0.1)'}}>
               <div style={{fontSize:'1rem',fontWeight:800,color:'#DC2626',lineHeight:1}}>{val}</div>
               <div style={{fontSize:'0.625rem',color:'#6B8A74',marginTop:3,fontWeight:600}}>{lbl}</div>
             </div>
           ))}
         </div>
+        <p style={{fontSize:'0.6875rem',color:'#9BB5A4',marginTop:8}}>* 5 min de vida por cigarro (fonte: CDC)</p>
       </div>
 
-      {/* Chart */}
+      {/* Gráfico 14 dias */}
       <div style={{marginBottom:'1.25rem'}}>
         <h2 style={{marginBottom:'0.75rem'}}>Cigarros por dia — 14 dias</h2>
         <div className="card">
           <div style={{display:'flex',gap:3,alignItems:'flex-end',height:110,paddingBottom:4}}>
-            {last14.map(day=>(
+            {last14.map(day => (
               <div key={day.key} className="chart-bar-wrap">
                 <div style={{fontSize:'0.5rem',color:day.count>stats.cpd?'#DC2626':day.count>0?'#E05C2A':'#DCF0E7',fontWeight:700,minHeight:10}}>{day.count>0?day.count:''}</div>
                 <div style={{width:'100%',display:'flex',alignItems:'flex-end',height:72,position:'relative'}}>
-                  {/* baseline marker */}
-                  <div style={{position:'absolute',width:'100%',height:2,background:'#DCF0E7',bottom:`${(stats.cpd/maxCount)*72}px`}}/>
+                  <div style={{position:'absolute',width:'100%',height:2,background:'rgba(26,107,66,0.2)',bottom:`${Math.round((stats.cpd/maxCount)*72)}px`}}/>
                   <div className={`chart-bar-inner${day.isToday?' today':day.count>stats.cpd?' smoked':''}`}
                     style={{height:day.count>0?`${Math.round((day.count/maxCount)*100)}%`:'3px',width:'100%'}}/>
                 </div>
@@ -155,14 +146,11 @@ export default function Progress({ data }) {
               </div>
             ))}
           </div>
-          <div style={{display:'flex',alignItems:'center',gap:8,marginTop:8}}>
-            <div style={{width:12,height:2,background:'#DCF0E7'}}/>
-            <span style={{fontSize:'0.6875rem',color:'#9BB5A4'}}>linha = seu padrão diário ({stats.cpd} cig)</span>
-          </div>
+          <p style={{fontSize:'0.6875rem',color:'#9BB5A4',marginTop:6}}>— linha verde = seu padrão ({stats.cpd} cig/dia)</p>
         </div>
       </div>
 
-      {/* Badges */}
+      {/* Conquistas */}
       <div style={{marginBottom:'1.25rem'}}>
         <h2 style={{marginBottom:'0.75rem'}}>Conquistas</h2>
         <div className="badge-grid">

@@ -592,6 +592,252 @@ Parar juntos aumenta as chances de ambos. Mas tenha cuidado: se um recair, o out
       }
     ]
   }
+
+  ,
+  {
+    id: 8, icon: '🧘', title: 'Mindfulness e ACT — a terceira onda', tag: 'Novas terapias',
+    intro: 'Além da TCC, duas abordagens baseadas em evidências estão transformando o tratamento do tabagismo: Mindfulness e Terapia de Aceitação e Compromisso.',
+    color: '#7C3AED', bg: '#F5F3FF',
+    sections: [
+      {
+        title: 'O que é Mindfulness aplicado ao tabagismo',
+        content: `Mindfulness — atenção plena — é a prática de observar pensamentos, emoções e sensações físicas no momento presente, sem julgamento. Para fumantes, essa habilidade é revolucionária porque a maioria dos cigarros é fumada no "piloto automático" — sem consciência real.
+
+O programa MTS (Mindfulness Training for Smokers), desenvolvido na Universidade de Wisconsin, mostrou que fumantes treinados em mindfulness têm maior taxa de abstinência semanas após o tratamento do que aqueles que usaram apenas TCC ou quitline (Davis et al., 2014).
+
+COMO O MINDFULNESS AJUDA:
+
+1. SURFAR A FISSURA (Urge Surfing):
+Em vez de lutar contra a fissura ou ceder a ela, você a observa como uma onda. Ela surge, cresce, atinge o pico e diminui — sempre. Você não precisa fazer nada. Apenas observar.
+
+Técnica: quando sentir fissura, pause. Observe onde ela está no corpo (aperto no peito? tensão na garganta?). Dê um nome: "isso é uma fissura". Observe sem reagir. Em 3 minutos, ela começa a diminuir.
+
+2. DESFUSÃO COGNITIVA:
+Quando o pensamento "preciso de um cigarro" aparecer, não o trate como um comando. Trate como um evento mental: "estou tendo o pensamento de que preciso de um cigarro." A simples mudança de linguagem cria distância entre você e o impulso.
+
+3. ATENÇÃO PLENA NO ATO DE FUMAR:
+Paradoxalmente, uma técnica usada no início do tratamento é fumar com total atenção — sem celular, sem distração. Muitos fumantes relatam que, ao realmente prestar atenção no sabor, cheiro e sensações, o cigarro perde muito do apelo.`
+      },
+      {
+        title: 'ACT — Terapia de Aceitação e Compromisso',
+        content: `A ACT (Acceptance and Commitment Therapy) é uma das abordagens com crescente evidência para cessação tabágica. Revisão sistemática publicada em 2026 na Revista Portuguesa de Psiquiatria sugere benefícios especialmente na aceitação dos cravings e na associação entre maior aceitação e abstinência.
+
+OS 6 PROCESSOS DA ACT PARA FUMANTES:
+
+1. ACEITAÇÃO: aceitar que a fissura existe, que é desconfortável, sem precisar eliminá-la imediatamente. "Eu posso ter essa fissura e ainda escolher não fumar."
+
+2. DESFUSÃO: separar-se dos pensamentos. "Minha mente está me dizendo para fumar" — não "eu preciso fumar."
+
+3. MOMENTO PRESENTE: focar no agora, não no "e se eu fumar amanhã" ou "não consigo ficar sem fumar para sempre." Apenas: "não fumo neste momento."
+
+4. EU OBSERVADOR: você é mais do que seus pensamentos e impulsos. Existe um "eu" que observa a fissura, mas não é a fissura.
+
+5. VALORES: conectar a decisão de parar com seus valores mais profundos. Não "devo parar" mas "parar está alinhado com quem eu quero ser e o que importa para mim."
+
+6. AÇÃO COMPROMETIDA: agir de acordo com seus valores mesmo quando a fissura está presente. "Mesmo sentindo vontade de fumar, vou agir como a pessoa que escolhi ser."
+
+EXERCÍCIO PRÁTICO — A METÁFORA DO ÔNIBUS:
+Imagine que você é o motorista de um ônibus e os passageiros são seus pensamentos e impulsos. Os passageiros (fissura, memórias do cigarro) podem fazer barulho, ameaçar, pedir para parar. Mas você é o motorista — você decide para onde vai. Os passageiros não controlam o volante.`
+      },
+      {
+        title: 'Exercícios práticos de atenção plena para o dia a dia',
+        content: `Esses exercícios foram extraídos de programas validados de cessação baseados em mindfulness. Pratique diariamente, não só na crise.
+
+EXERCÍCIO 1 — RESPIRAÇÃO ÂNCORA (5 minutos, manhã)
+Sente-se confortavelmente. Feche os olhos. Foque apenas na sensação do ar entrando e saindo pelas narinas. Quando a mente divagar (e vai), gentilmente traga de volta para a respiração. Sem julgamento. Apenas observando. Faça por 5 minutos.
+
+Por que funciona: treine o músculo da atenção — o mesmo músculo que você vai usar para redirecionar o foco durante a fissura.
+
+EXERCÍCIO 2 — SCAN CORPORAL (10 minutos, antes de dormir)
+Deite. Lentamente, mova a atenção da cabeça até os pés, observando as sensações em cada parte do corpo. Sem tentar mudar nada. Apenas observar. Quando chegar à área do peito (onde muitos sentem a fissura), observe sem reagir.
+
+EXERCÍCIO 3 — URGE SURFING (quando sentir fissura)
+1. Pare o que está fazendo
+2. Observe: onde no corpo você sente a fissura? Que formato tem? Que temperatura?
+3. Imagine que a fissura é uma onda no oceano
+4. Você está em cima da onda, surfando — não lutando, não cedendo
+5. Observe a onda crescer, atingir o pico, e começar a diminuir
+6. Repita mentalmente: "isso é temporário, vou deixar passar"
+
+EXERCÍCIO 4 — PAUSA RAISIN (3 minutos)
+Pegue uma passa de uva (ou qualquer alimento pequeno). Observe-a por 30 segundos como se nunca tivesse visto antes. Sinta o peso na palma. Cheire. Coloque na boca sem mastigar. Sinta a textura. Então mastigue lentamente, com total atenção.
+
+Por que funciona: reativa a capacidade de sentir prazer em coisas simples — a mesma capacidade que o cigarro havia embotado.`
+      },
+      {
+        title: 'Como integrar com o que você já está fazendo',
+        content: `Mindfulness e ACT não substituem a TCC ou os medicamentos — elas complementam. O conjunto ideal:
+
+TCC + ACT/Mindfulness + Medicação (se indicada) = maiores taxas de sucesso
+
+QUANDO USAR CADA ABORDAGEM:
+
+Durante fissuras intensas: Urge Surfing (observe sem reagir) + respiração 4-7-8
+Quando pensamentos automáticos aparecerem: Desfusão cognitiva ("minha mente está dizendo X")
+Quando a motivação cair: Valores (por que isso importa para mim?)
+Quando houver recaída: Autocompaixão (sem julgamento, com análise)
+Diariamente: 5 min de respiração âncora pela manhã
+
+APLICATIVOS DE MINDFULNESS QUE AJUDAM:
+Headspace, Calm e Insight Timer têm meditações específicas para cessação do tabagismo e controle de impulsos. Use como complemento ao Desfume.
+
+EVIDÊNCIAS: Revisão de 2020 na Revista Brasileira de Terapias Cognitivas mostra que mindfulness aplicado a substâncias aumenta a flexibilidade psicológica — a capacidade de agir de acordo com valores mesmo na presença de impulsos — que é o fator mais preditivo de sucesso a longo prazo.`
+      }
+    ]
+  },
+  {
+    id: 9, icon: '📱', title: 'O que a ciência diz sobre apps de cessação', tag: 'Tecnologia',
+    intro: 'Pesquisas de 2022 a 2024 analisaram o que realmente funciona — e o que atrapalha — em apps para parar de fumar.',
+    color: '#1A6B9A', bg: '#EAF4FB',
+    sections: [
+      {
+        title: 'O que os usuários mais valorizam (pesquisa PLOS 2024)',
+        content: `Estudo publicado no PLOS Digital Health (novembro 2024) entrevistou 38 fumantes sobre experiências com apps de cessação. Os achados mostram o que de fato faz diferença:
+
+O QUE FUNCIONA MAIS:
+
+1. AUTO-MONITORAMENTO CONFIÁVEL
+Usuários querem que o registro de cigarros seja fácil e preciso. O que importa: rapidez do registro, histórico visível, gráficos que mostram tendência ao longo do tempo — não apenas hoje.
+
+2. FEEDBACK PERSONALIZADO E OPORTUNO
+Mensagens genéricas ("você está indo bem!") são ignoradas. O que engaja: feedback baseado nos dados reais do usuário ("você fumou 3 cigarros a menos que ontem"), notificações no momento certo, e reconhecimento de marcos específicos.
+
+3. CONTEÚDO EDUCATIVO SOB DEMANDA
+Usuários não querem ser bombardeados com informação. Querem ter acesso quando precisam — especialmente no momento da fissura ou após uma recaída.
+
+4. PERSONALIZAÇÃO DO PLANO
+Apps altamente personalizáveis têm maior engajamento. Poder definir a meta, o ritmo de redução e as estratégias preferidas aumenta a sensação de controle.
+
+O QUE ATRAPALHA:
+
+→ Conteúdo repetitivo: as mesmas dicas aparecendo sempre cansam o usuário
+→ Interface complexa: se registrar um cigarro demora mais de 2 toques, o usuário abandona
+→ Excesso de notificações: perturbam e são ignoradas — menos é mais
+→ Falta de resposta a recaídas: apps que "reiniciam tudo" após uma recaída geram frustração`
+      },
+      {
+        title: 'O que usuários pedem que ainda não existe na maioria dos apps',
+        content: `Análise de 1.414 avaliações de apps de cessação (PubMed, 2022) identificou os pedidos mais frequentes de usuários:
+
+OS 5 PEDIDOS MAIS COMUNS:
+
+1. SUPORTE HUMANO REAL
+A maioria dos apps é automática. Usuários querem poder falar com alguém — um profissional, um coach, ou pelo menos uma comunidade de pessoas no mesmo processo. "Quero saber que não estou sozinho."
+
+2. MODO REDUÇÃO GRADUAL (não só parada imediata)
+A maioria dos apps assume parada total. Usuários querem reduzir gradualmente — e ter um app que apoie essa abordagem sem tratar como "fracasso." Evidências mostram que redução gradual tem taxas de sucesso semelhantes à parada imediata.
+
+3. INTEGRAÇÃO COM WEARABLES
+Monitorar frequência cardíaca, sono e nível de stress em tempo real para correlacionar com o consumo. Fumantes querem ver objetivamente como o cigarro afeta seu corpo.
+
+4. SESSÕES DE ÁUDIO GUIADO
+Meditações, hipnose guiada e exercícios de respiração em áudio foram os recursos mais elogiados quando presentes. Usuários agradecem explicitamente — e os recomendam como o diferencial do app.
+
+5. COMUNIDADE E GAMIFICAÇÃO SOCIAL
+Rankings, desafios entre amigos, conquistas compartilháveis. A dimensão social aumenta o comprometimento e a motivação. Saber que outras pessoas estão na mesma jornada reduz o isolamento.`
+      },
+      {
+        title: 'Como usar o Desfume de forma mais eficaz',
+        content: `Com base nas pesquisas sobre o que funciona, aqui estão as práticas que maximizam o seu sucesso com o app:
+
+USE O REGISTRO DE CIGARROS COMO FERRAMENTA, NÃO PUNIÇÃO
+O objetivo não é "não errar" — é ter dados. Cada cigarro registrado honestamente é informação valiosa sobre seus padrões. Usuários que registram consistentemente têm melhores resultados do que os que só registram quando estão "bem."
+
+OLHE O GRÁFICO DE 14 DIAS SEMANALMENTE
+Não diariamente — isso pode causar ansiedade. Uma vez por semana, olhe a tendência. Está diminuindo? Mantenha. Está subindo? Identifique o que mudou nessa semana.
+
+USE O BOTÃO DE PÂNICO ANTES DE CEDER, NÃO DEPOIS
+A maioria dos usuários aperta o botão de pânico depois de já ter fumado. Ele foi projetado para ser usado DURANTE a fissura, antes da decisão. Três minutos de qualquer das estratégias é suficiente para a fissura passar.
+
+AJUSTE A META E O INTERVALO A CADA SEMANA
+O app foi construído para acompanhar sua evolução. Se você manteve o intervalo de 1h por uma semana inteira, aumente para 1h30. Se a meta de 15 cigarros está fácil, reduza para 12. Progresso incremental é mais sustentável que mudanças radicais.
+
+COMPLETE OS MÓDULOS DO GUIA AOS POUCOS
+Pesquisas mostram que conteúdo educativo consumido aos poucos (não de uma vez) tem melhor retenção. Um módulo por semana é mais eficaz do que ler tudo em um dia.`
+      }
+    ]
+  },
+  {
+    id: 10, icon: '🌍', title: 'Tabagismo no Brasil — dados e contexto', tag: 'Contexto',
+    intro: 'Entender o cenário nacional ajuda a perceber que você não está sozinho e que existem recursos públicos disponíveis.',
+    color: '#1A6B42', bg: '#DCF0E7',
+    sections: [
+      {
+        title: 'O Brasil e o cigarro — onde estamos',
+        content: `O Brasil é considerado referência internacional em políticas de controle do tabagismo — mas ainda tem muito a avançar.
+
+NÚMEROS ATUAIS (INCA/IBGE):
+→ Aproximadamente 25 milhões de fumantes ativos no Brasil
+→ Taxa de tabagismo: 12,6% da população adulta (queda de 34% em 1989 para ~13% hoje)
+→ 443 mortes por dia atribuíveis ao tabagismo — uma a cada 3 minutos
+→ 200.000 mortes por ano por doenças relacionadas ao cigarro
+→ R$ 125 bilhões/ano em custos para o sistema de saúde
+
+O QUE O BRASIL FEZ CERTO:
+→ Proibição de publicidade de cigarros (2000) — uma das primeiras no mundo
+→ Advertências visuais nas embalagens (1988, expandidas várias vezes)
+→ Proibição de fumar em locais fechados (Lei Antifrmo, 2014)
+→ Programa Nacional de Controle do Tabagismo (PNCT) com tratamento gratuito no SUS
+→ Aumento progressivo dos impostos sobre o cigarro
+
+POR QUE AINDA É UM PROBLEMA:
+→ Cigarro eletrônico (vape) em expansão, especialmente entre jovens
+→ Acesso fácil e preço ainda acessível comparado a outros países
+→ Marketing disfarçado nas redes sociais
+→ Baixa adesão ao tratamento disponível gratuitamente no SUS`
+      },
+      {
+        title: 'O Programa Nacional de Controle do Tabagismo (PNCT)',
+        content: `O PNCT é um dos programas mais abrangentes do mundo para cessação tabágica e está disponível gratuitamente no SUS para todos os brasileiros.
+
+O QUE OFERECE:
+→ Consultas com equipe multiprofissional (médico, psicólogo, enfermeiro, farmacêutico)
+→ Grupos de cessação presenciais — encontros semanais por 12 meses
+→ Bupropiona e vareniclina com prescrição médica — custo zero no SUS
+→ TRN (adesivos, gomas de nicotina) em algumas unidades
+→ Apoio para recaídas sem julgamento
+
+COMO ACESSAR:
+1. Vá à sua UBS (Unidade Básica de Saúde) mais próxima
+2. Leve CPF e cartão do SUS
+3. Diga: "quero participar do Programa de Cessação do Tabagismo"
+4. Faça a consulta de avaliação e inscrição no grupo
+
+Se não houver grupo na sua UBS, pergunte sobre encaminhamento para o CAPS ou hospital de referência.
+
+DISQUE SAÚDE: 136 — gratuito, disponível 24h.
+
+INCA: inca.gov.br/controle-do-tabagismo — encontre unidades na sua cidade.
+
+IMPORTANTE: o tratamento combinado (grupo + medicação) tem taxas de sucesso de 35-45% — muito superiores às tentativas individuais (3-5%).`
+      },
+      {
+        title: 'Para ajudar outras pessoas — se tornar multiplicador',
+        content: `Se você está usando o Desfume, provavelmente conhece outros fumantes que gostariam de parar. Aqui está como ajudar de forma eficaz — e o que evitar.
+
+COMO APOIAR SEM PRESSIONAR:
+
+A pesquisa é clara: pressão e crítica são fatores de risco para recaída, não de proteção. O que funciona:
+
+→ Oferecer o app sem forçar: "tem um app que está me ajudando muito, se quiser te passo"
+→ Estar disponível para ligações durante fissuras — sem fazer perguntas, apenas presença
+→ Celebrar cada conquista sem minimizar: "uma semana é enorme"
+→ Não fumar na presença da pessoa quando ela pedir — pelo menos nos primeiros 3 meses
+→ Não perguntar toda hora se a pessoa ainda está sem fumar
+
+SE VOCÊ TRABALHA NA SAÚDE:
+O protocolo INCA de "abordagem breve" recomenda que todo profissional de saúde pergunte sobre tabagismo em qualquer consulta e ofereça encaminhamento. A simples pergunta "você fuma?" seguida de "já pensou em parar?" é suficiente para iniciar o processo.
+
+DADOS QUE MOTIVAM:
+→ Apenas 3% dos fumantes recebem aconselhamento formal para parar
+→ Uma única orientação médica aumenta em 2-3x a taxa de tentativa
+→ Você pode ser essa orientação para alguém próximo
+
+O Desfume foi construído para ser mais do que um app — foi construído para ser um ponto de partida de uma conversa sobre saúde, liberdade e qualidade de vida.`
+      }
+    ]
+  }
+
 ]
 
 export default function Cartilha() {

@@ -14,8 +14,8 @@ const INSIGHTS = [
   { tag:'Coração', color:'tag-ember', title:'Seu coração agradece agora mesmo', body:'Em 24 horas sem fumar, o risco de infarto já começa a cair. Em 1 ano, é metade do de um fumante ativo.' },
   { tag:'Mente', color:'tag-green', title:'O cigarro criava a tensão que aliviava', body:'A nicotina causa ansiedade durante a abstinência. A "calma" que você sentia era apenas a ansiedade sendo saciada. Sem o cigarro, você fica mais calmo de verdade.' },
   { tag:'Tempo', color:'tag-sky', title:'Você está recuperando tempo de vida', body:'Cada cigarro consome em média 5 minutos de vida. Você está recuperando esse tempo agora, segundo a segundo.' },
-  { tag:'Pele', color:'tag-green', title:'Sua aparência está melhorando', body:'Com mais oxigênio na corrente sanguínea, a pele recebe mais nutrição. O envelhecimento precoce causado pelo tabaco começa a desacelerar.' },
   { tag:'Família', color:'tag-ember', title:'As pessoas ao seu redor também ganham', body:'Fumantes passivos têm 20-30% mais risco de câncer de pulmão. Cada cigarro que você não fuma protege quem você ama.' },
+  { tag:'Pele', color:'tag-green', title:'Sua aparência está melhorando', body:'Com mais oxigênio na corrente sanguínea, a pele recebe mais nutrição. O envelhecimento precoce causado pelo tabaco começa a desacelerar.' },
 ]
 
 function formatElapsed(ms) {
@@ -71,8 +71,6 @@ export default function Home({ data, update, logCigarette }) {
 
   const { main, sub } = formatElapsed(elapsed)
   const insight = INSIGHTS[insightIdx]
-  const goalProgress = schedule.goalProgress
-  const overGoal = schedule.overGoal
 
   return (
     <div className="page-padded">
@@ -127,57 +125,63 @@ export default function Home({ data, update, logCigarette }) {
         )}
       </div>
 
-      {/* Intervalo — próximo cigarro */}
+      {/* Intervalo */}
       <div className={`card ${schedule.canSmokeNow ? 'card-mint' : 'card-sky'}`} style={{marginBottom:'1rem'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
           <div>
-            <p style={{fontSize:'0.75rem',fontWeight:700,color: schedule.canSmokeNow ? '#1A6B42' : '#1A6B9A',textTransform:'uppercase',letterSpacing:0.5,marginBottom:3}}>
+            <p style={{fontSize:'0.75rem',fontWeight:700,color:schedule.canSmokeNow?'#1A6B42':'#1A6B9A',textTransform:'uppercase',letterSpacing:0.5,marginBottom:3}}>
               {schedule.canSmokeNow ? '✅ Intervalo cumprido' : '⏳ Próximo cigarro em'}
             </p>
-            <p style={{fontSize:'1.75rem',fontWeight:800,color: schedule.canSmokeNow ? '#0A3D2B' : '#1A6B9A',lineHeight:1}}>
-              {schedule.canSmokeNow ? 'Quando quiser' : formatCountdown(countdown)}
+            <p style={{fontSize:'1.625rem',fontWeight:800,color:schedule.canSmokeNow?'#0A3D2B':'#1A6B9A',lineHeight:1}}>
+              {schedule.canSmokeNow ? 'Se quiser' : formatCountdown(countdown)}
             </p>
-            <p style={{fontSize:'0.75rem',color:'#6B8A74',marginTop:3}}>
-              Intervalo configurado: {schedule.interval >= 60 ? `${Math.floor(schedule.interval/60)}h${schedule.interval%60>0?` ${schedule.interval%60}min`:''}` : `${schedule.interval} min`}
+            <p style={{fontSize:'0.6875rem',color:'#6B8A74',marginTop:3}}>
+              Intervalo: {schedule.interval >= 60 ? `${Math.floor(schedule.interval/60)}h${schedule.interval%60>0?` ${schedule.interval%60}min`:''}` : `${schedule.interval} min`}
             </p>
           </div>
           <Link to="/configuracoes" style={{textDecoration:'none'}}>
-            <button className="btn btn-ghost" style={{fontSize:'0.75rem',padding:'7px 12px'}}>Ajustar ⚙️</button>
+            <button className="btn btn-ghost" style={{fontSize:'0.75rem',padding:'7px 12px'}}>⚙️ Ajustar</button>
           </Link>
         </div>
       </div>
 
       {/* Meta diária */}
-      <div className={`card ${overGoal ? 'card-red' : 'card-mint'}`} style={{marginBottom:'1rem'}}>
+      <div className={`card ${stats.todayOverGoal > 0 ? 'card-red' : 'card-mint'}`} style={{marginBottom:'1rem'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
-          <p style={{fontSize:'0.8125rem',fontWeight:700,color: overGoal ? '#DC2626' : '#0A3D2B',margin:0}}>
-            {overGoal ? `⚠️ Meta ultrapassada em ${schedule.overBy}` : `🎯 Meta diária`}
+          <p style={{fontSize:'0.8125rem',fontWeight:700,color:stats.todayOverGoal>0?'#DC2626':'#0A3D2B',margin:0}}>
+            {stats.todayOverGoal > 0 ? `⚠️ ${stats.todayOverGoal} além da meta` : '🎯 Meta do dia'}
           </p>
-          <span style={{fontSize:'1rem',fontWeight:800,color: overGoal ? '#DC2626' : '#1A6B42'}}>
-            {schedule.todayCount}/{schedule.dailyGoal}
+          <span style={{fontSize:'1rem',fontWeight:800,color:stats.todayOverGoal>0?'#DC2626':'#1A6B42'}}>
+            {stats.todayCount}/{stats.dailyGoal}
           </span>
         </div>
         <div className="progress-track">
-          <div className="progress-fill" style={{width:`${Math.min(goalProgress,100)}%`, background: overGoal ? '#DC2626' : undefined}}/>
+          <div className="progress-fill" style={{width:`${Math.min(Math.round((stats.todayCount/stats.dailyGoal)*100),100)}%`,background:stats.todayOverGoal>0?'#DC2626':undefined}}/>
         </div>
-        <p style={{fontSize:'0.75rem',color: overGoal ? '#DC2626' : '#4A8C6F',marginTop:6}}>
-          {overGoal
-            ? `Você fumou ${schedule.overBy} a mais que a meta hoje.`
-            : schedule.remainingToday === 0
-            ? '🎉 Meta atingida! Tente não fumar mais hoje.'
-            : `Restam ${schedule.remainingToday} cigarros para a meta de hoje.`}
-        </p>
+        <div style={{display:'flex',justifyContent:'space-between',marginTop:6}}>
+          <p style={{fontSize:'0.75rem',color:stats.todayOverGoal>0?'#DC2626':'#4A8C6F',margin:0}}>
+            {stats.todayOverGoal > 0
+              ? `Gasto extra: ${brl(stats.todayExtraMoney)}`
+              : stats.todaySaved === 0 ? '🎉 Meta atingida!'
+              : `Restam ${stats.todaySaved} cigarros`}
+          </p>
+          {stats.todaySaved > 0 && stats.todayOverGoal === 0 && (
+            <p style={{fontSize:'0.75rem',color:'#1A6B42',fontWeight:700,margin:0}}>
+              +{brl(stats.todaySavedMoney)} economizado hoje
+            </p>
+          )}
+        </div>
       </div>
 
-      {/* Stats */}
+      {/* Stats principais */}
       <div className="stat-grid" style={{marginBottom:'1rem'}}>
         <div className="stat-box">
-          <div className="stat-val" style={{color: overGoal ? '#DC2626' : schedule.todayCount > 0 ? '#E05C2A' : '#1A6B42'}}>{schedule.todayCount}</div>
-          <div className="stat-lbl">hoje</div>
+          <div className="stat-val" style={{color:stats.todayOverGoal>0?'#DC2626':stats.todayCount>0?'#E05C2A':'#1A6B42'}}>{stats.todayCount}</div>
+          <div className="stat-lbl">fumei hoje</div>
         </div>
         <div className="stat-box">
-          <div className="stat-val" style={{color:stats.cigsNotSmoked>0?'#1A6B42':'#6B8A74'}}>{num(stats.cigsNotSmoked)}</div>
-          <div className="stat-lbl">não fumados</div>
+          <div className="stat-val" style={{color:'#1A6B42',fontSize:'1.1rem'}}>{num(stats.cigsNotSmoked)}</div>
+          <div className="stat-lbl">não fumei</div>
         </div>
         <div className="stat-box">
           <div className="stat-val" style={{color:'#C47E00',fontSize:'1rem'}}>{brl(stats.moneySaved)}</div>
@@ -185,43 +189,39 @@ export default function Home({ data, update, logCigarette }) {
         </div>
       </div>
 
-      {/* Panic */}
-      <button className="btn btn-full btn-lg" style={{background:'#E05C2A',color:'white',marginBottom:'0.75rem',boxShadow:'0 4px 16px rgba(224,92,42,0.3)'}} onClick={() => setShowPanic(true)}>
-        🆘 Estou com fissura — ajuda!
-      </button>
-
-      {/* Smoked */}
-      <button className="btn btn-full btn-outline-ember" style={{marginBottom:'1.5rem'}} onClick={() => setShowConfirm(true)}>
-        🚬 Fumei um cigarro
-      </button>
-
-      {/* Reduction */}
+      {/* Redução */}
       {stats.reductionPct > 0 && (
         <div className="card card-mint" style={{marginBottom:'1rem'}}>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
-            <p style={{fontSize:'0.8125rem',fontWeight:700,color:'#0A3D2B',margin:0}}>📉 Redução no consumo</p>
-            <span style={{fontSize:'1.125rem',fontWeight:800,color:'#1A6B42'}}>{stats.reductionPct}%</span>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}}>
+            <p style={{fontSize:'0.8125rem',fontWeight:700,color:'#0A3D2B',margin:0}}>📉 Redução total</p>
+            <span style={{fontSize:'1.25rem',fontWeight:800,color:'#1A6B42'}}>{stats.reductionPct}%</span>
           </div>
-          <div className="progress-track">
-            <div className="progress-fill" style={{width:`${Math.min(stats.reductionPct,100)}%`}}/>
-          </div>
-          <p style={{fontSize:'0.75rem',color:'#4A8C6F',marginTop:6}}>
-            Fumou {num(stats.actualSmoked)} de {num(stats.expectedTotal)} esperados · {num(stats.cigsNotSmoked)} a menos
+          <div className="progress-track"><div className="progress-fill" style={{width:`${Math.min(stats.reductionPct,100)}%`}}/></div>
+          <p style={{fontSize:'0.75rem',color:'#4A8C6F',marginTop:5}}>
+            Média atual: {stats.dailyAvgSmoked} cig/dia · padrão: {stats.cpd} · {num(stats.cigsNotSmoked)} a menos no total
           </p>
         </div>
       )}
 
-      {/* Impact */}
+      {/* Botões de ação */}
+      <button className="btn btn-full btn-lg" style={{background:'#E05C2A',color:'white',marginBottom:'0.75rem',boxShadow:'0 4px 16px rgba(224,92,42,0.3)'}} onClick={() => setShowPanic(true)}>
+        🆘 Estou com fissura — ajuda!
+      </button>
+      <button className="btn btn-full btn-outline-ember" style={{marginBottom:'1.5rem'}} onClick={() => setShowConfirm(true)}>
+        🚬 Fumei um cigarro
+      </button>
+
+      {/* Impacto */}
       <div className="card card-red" style={{marginBottom:'1rem'}}>
-        <p style={{fontSize:'0.75rem',fontWeight:700,color:'#DC2626',textTransform:'uppercase',letterSpacing:0.5,marginBottom:10}}>⚠️ O que o cigarro custa por ano</p>
+        <p style={{fontSize:'0.75rem',fontWeight:700,color:'#DC2626',textTransform:'uppercase',letterSpacing:0.5,marginBottom:10}}>⚠️ Custo do cigarro por ano</p>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
           <div style={{background:'white',borderRadius:8,padding:'10px',textAlign:'center'}}>
-            <div style={{fontSize:'1.125rem',fontWeight:800,color:'#DC2626',lineHeight:1}}>{brl(stats.yearlyCost)}</div>
-            <div style={{fontSize:'0.625rem',color:'#6B8A74',marginTop:3,fontWeight:600}}>em dinheiro</div>
+            <div style={{fontSize:'1.125rem',fontWeight:800,color:'#DC2626'}}>{brl(stats.yearlyCost)}</div>
+            <div style={{fontSize:'0.625rem',color:'#6B8A74',marginTop:3,fontWeight:600}}>em dinheiro/ano</div>
           </div>
           <div style={{background:'white',borderRadius:8,padding:'10px',textAlign:'center'}}>
-            <div style={{fontSize:'1.125rem',fontWeight:800,color:'#DC2626',lineHeight:1}}>{Math.round(stats.cpd*5*365/60/24)} dias</div>
-            <div style={{fontSize:'0.625rem',color:'#6B8A74',marginTop:3,fontWeight:600}}>de vida perdidos</div>
+            <div style={{fontSize:'1.125rem',fontWeight:800,color:'#DC2626'}}>{Math.round(stats.cpd*5*365/60/24)} dias</div>
+            <div style={{fontSize:'0.625rem',color:'#6B8A74',marginTop:3,fontWeight:600}}>de vida/ano perdidos</div>
           </div>
         </div>
       </div>
@@ -229,8 +229,8 @@ export default function Home({ data, update, logCigarette }) {
       {/* Insight */}
       <div style={{marginBottom:'1.5rem'}}>
         <div className="section-head">
-          <h2>Insight do momento</h2>
-          <button onClick={() => setInsightIdx(i => i+1)} style={{background:'none',border:'none',cursor:'pointer',color:'#1A6B42',fontSize:'0.8125rem',fontWeight:700}}>Próximo →</button>
+          <h2>Insight</h2>
+          <button onClick={() => setInsightIdx(i=>i+1)} style={{background:'none',border:'none',cursor:'pointer',color:'#1A6B42',fontSize:'0.8125rem',fontWeight:700}}>Próximo →</button>
         </div>
         <div className="card card-mint">
           <span className={`tag ${insight.color}`} style={{marginBottom:8}}>{insight.tag}</span>
