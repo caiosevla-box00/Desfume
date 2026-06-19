@@ -126,24 +126,43 @@ export default function Home({ data, update, logCigarette }) {
       </div>
 
       {/* Intervalo */}
-      <div className={`card ${schedule.canSmokeNow ? 'card-mint' : 'card-sky'}`} style={{marginBottom:'1rem'}}>
-        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-          <div>
-            <p style={{fontSize:'0.75rem',fontWeight:700,color:schedule.canSmokeNow?'#1A6B42':'#1A6B9A',textTransform:'uppercase',letterSpacing:0.5,marginBottom:3}}>
-              {schedule.canSmokeNow ? '✅ Intervalo cumprido' : '⏳ Próximo cigarro em'}
-            </p>
-            <p style={{fontSize:'1.625rem',fontWeight:800,color:schedule.canSmokeNow?'#0A3D2B':'#1A6B9A',lineHeight:1}}>
-              {schedule.canSmokeNow ? 'Se quiser' : formatCountdown(countdown)}
-            </p>
-            <p style={{fontSize:'0.6875rem',color:'#6B8A74',marginTop:3}}>
-              Intervalo: {schedule.interval >= 60 ? `${Math.floor(schedule.interval/60)}h${schedule.interval%60>0?` ${schedule.interval%60}min`:''}` : `${schedule.interval} min`}
-            </p>
+      {(() => {
+        const extraTime = schedule.canSmokeNow ? Math.floor((Date.now() - (schedule.nextSmokeTime || Date.now())) / 60000) : 0
+        const encouragements = [
+          'Cada minuto a mais é uma vitória real.',
+          'Você está mais forte do que pensa.',
+          'A fissura já passou — continue assim.',
+          'Seu corpo está agradecendo agora.',
+          'Prove para si mesmo que consegue mais.',
+        ]
+        const msg = encouragements[Math.floor(extraTime / 3) % encouragements.length]
+        return (
+          <div className={`card ${schedule.canSmokeNow ? 'card-mint' : 'card-sky'}`} style={{marginBottom:'1rem'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+              <div style={{flex:1}}>
+                <p style={{fontSize:'0.75rem',fontWeight:700,color:schedule.canSmokeNow?'#1A6B42':'#1A6B9A',textTransform:'uppercase',letterSpacing:0.5,marginBottom:3}}>
+                  {schedule.canSmokeNow ? '💪 Você superou o intervalo!' : '⏳ Próximo intervalo em'}
+                </p>
+                <p style={{fontSize:'1.5rem',fontWeight:800,color:schedule.canSmokeNow?'#0A3D2B':'#1A6B9A',lineHeight:1.2}}>
+                  {schedule.canSmokeNow
+                    ? `+${extraTime} min além da meta`
+                    : formatCountdown(countdown)}
+                </p>
+                {schedule.canSmokeNow ? (
+                  <p style={{fontSize:'0.8125rem',color:'#1A6B42',marginTop:5,fontStyle:'italic'}}>{msg}</p>
+                ) : (
+                  <p style={{fontSize:'0.6875rem',color:'#6B8A74',marginTop:3}}>
+                    Intervalo: {schedule.interval >= 60 ? `${Math.floor(schedule.interval/60)}h${schedule.interval%60>0?` ${schedule.interval%60}min`:''}` : `${schedule.interval} min`}
+                  </p>
+                )}
+              </div>
+              <Link to="/configuracoes" style={{textDecoration:'none',marginLeft:10}}>
+                <button className="btn btn-ghost" style={{fontSize:'0.75rem',padding:'7px 12px'}}>⚙️</button>
+              </Link>
+            </div>
           </div>
-          <Link to="/configuracoes" style={{textDecoration:'none'}}>
-            <button className="btn btn-ghost" style={{fontSize:'0.75rem',padding:'7px 12px'}}>⚙️ Ajustar</button>
-          </Link>
-        </div>
-      </div>
+        )
+      })()}
 
       {/* Meta diária */}
       <div className={`card ${stats.todayOverGoal > 0 ? 'card-red' : 'card-mint'}`} style={{marginBottom:'1rem'}}>

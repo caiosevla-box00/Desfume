@@ -8,7 +8,11 @@ export function calcStats({ data, elapsed }) {
   const dailyGoal = data.settings?.dailyGoal || cpd
 
   // Datas
-  const startedAt = data.profile?.startedAt || data.profile?.lastSmokeFreeStart || Date.now()
+  // Usa a data mais antiga disponível para calcular dias corretamente
+  // Se startedAt não existe (usuário antigo), pega o dia mais antigo do logByDay
+  const logDates = Object.keys(data.smoking?.logByDay || {}).sort()
+  const earliestLog = logDates.length > 0 ? new Date(logDates[0]).getTime() : null
+  const startedAt = data.profile?.startedAt || earliestLog || data.profile?.lastSmokeFreeStart || Date.now()
   const totalDaysUsing = Math.max(1, (Date.now() - startedAt) / 86400000)
   const totalDaysFloor = Math.max(1, Math.floor(totalDaysUsing))
 

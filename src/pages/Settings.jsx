@@ -82,6 +82,44 @@ export default function Settings({ data, update }) {
       <p style={{ fontSize: '0.8125rem', color: '#6B8A74', marginBottom: '1rem', lineHeight: 1.5 }}>
         O app te notifica quando o intervalo passar. Você decide se fuma ou não. Aumente gradualmente para reduzir o consumo.
       </p>
+
+      {/* Intervalo personalizado */}
+      <div className="card" style={{ marginBottom: '1rem' }}>
+        <label style={{ marginBottom: 8 }}>Intervalo personalizado (em minutos)</label>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <input
+            type="number"
+            placeholder="Ex: 75 para 1h15min"
+            min="5"
+            max="1440"
+            style={{ flex: 1 }}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                const val = parseInt(e.target.value)
+                if (val >= 5) { updateInterval(val); showToast(`Intervalo de ${val} min ativado!`) }
+              }
+            }}
+            onChange={e => {
+              const val = parseInt(e.target.value)
+              if (val >= 5 && val <= 1440) updateInterval(val)
+            }}
+          />
+          <button className="btn btn-green" style={{ padding: '11px 16px', whiteSpace: 'nowrap' }}
+            onClick={e => {
+              const input = e.target.closest('.card').querySelector('input')
+              const val = parseInt(input.value)
+              if (val >= 5) { updateInterval(val); showToast(`Intervalo de ${val} min ativado!`) }
+            }}>
+            Aplicar
+          </button>
+        </div>
+        <p style={{ fontSize: '0.75rem', color: '#9BB5A4', marginTop: 6 }}>
+          Ativo agora: <strong style={{ color: '#1A6B42' }}>
+            {interval >= 60 ? `${Math.floor(interval/60)}h${interval%60>0?` ${interval%60}min`:''}` : `${interval} min`}
+          </strong>
+        </p>
+      </div>
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: '1rem' }}>
         {INTERVAL_OPTIONS.map(opt => {
           const selected = interval === opt.value
