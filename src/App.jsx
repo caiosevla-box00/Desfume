@@ -9,6 +9,7 @@ import Tests from './pages/Tests'
 import Cartilha from './pages/Cartilha'
 import Medications from './pages/Medications'
 import Profile from './pages/Profile'
+import Settings from './pages/Settings'
 import { useUserData } from './hooks/useUserData'
 
 function ProtectedApp() {
@@ -33,6 +34,7 @@ function ProtectedApp() {
         <Route path="/cartilha" element={<Cartilha />} />
         <Route path="/remedios" element={<Medications data={data} update={update} />} />
         <Route path="/perfil" element={<Profile data={data} update={update} />} />
+        <Route path="/configuracoes" element={<Settings data={data} update={update} />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Shell>
