@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { calcStats, brl, num } from '../lib/stats'
-import Logo from '../components/Logo'
 
 export default function Profile({ data, update }) {
   const { user, logout } = useAuth()
