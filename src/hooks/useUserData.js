@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { doc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore'
 import { db } from '../lib/firebase'
+import { localDateKey } from '../lib/stats'
 import { useAuth } from '../contexts/AuthContext'
 
 const DEFAULT_DATA = {
@@ -52,7 +53,7 @@ export function useUserData() {
 
   const logCigarette = useCallback(async () => {
     if (!user) return
-    const today = new Date().toISOString().split('T')[0]
+    const today = localDateKey()
     const ref = doc(db, 'userData', user.uid)
     const newCount = ((data.smoking?.logByDay?.[today] || 0) + 1)
     await updateDoc(ref, {

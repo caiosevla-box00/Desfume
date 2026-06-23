@@ -1,6 +1,7 @@
 // src/hooks/useSmokingSchedule.js
 // Gerencia o intervalo entre cigarros e meta diária
 import { useEffect, useCallback, useRef } from 'react'
+import { localDateKey } from '../lib/stats'
 
 const INTERVAL_OPTIONS = [
   { label: '30 minutos', value: 30, description: 'Redução leve' },
@@ -22,7 +23,7 @@ export function useSmokingSchedule({ data, update, sendLocalNotification }) {
   const lastSmoked = data.profile?.lastSmokeFreeStart || null
   const notificationsEnabled = data.notificationsEnabled || false
 
-  const todayKey = new Date().toISOString().split('T')[0]
+  const todayKey = localDateKey()
   const todayCount = data.smoking?.logByDay?.[todayKey] || 0
 
   // Quando pode fumar o próximo

@@ -1,3 +1,11 @@
+// Retorna a data local no formato YYYY-MM-DD respeitando o fuso do usuário
+export function localDateKey(date = new Date()) {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
 // src/lib/stats.js — Cálculos centralizados do Desfume
 
 export function calcStats({ data, elapsed }) {
@@ -44,7 +52,7 @@ export function calcStats({ data, elapsed }) {
   const minutesPerCig = Math.round(60 / cigsPerHour)
 
   // Hoje
-  const todayKey = new Date().toISOString().split('T')[0]
+  const todayKey = localDateKey()
   const todayCount = data.smoking?.logByDay?.[todayKey] || 0
 
   // Cigarros não fumados HOJE = meta diária - fumados hoje (se fumou menos)
